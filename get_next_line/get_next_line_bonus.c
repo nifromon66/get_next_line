@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nifromon <nifromon@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nifromon <nifromon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:41:34 by nifromon          #+#    #+#             */
-/*   Updated: 2024/11/25 15:49:49 by nifromon         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:22:46 by nifromon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 char	*get_next_line(int fd)
 {
-	static t_list	*store[200000];
-	t_list			*error;
+	static t_gnl	*store[200000];
+	t_gnl			*error;
 	char			*queue;
 
 	if (fd < 0 || fd > 200000 || BUFFER_SIZE <= 0)
 		return (NULL);
 	queue = NULL;
-	if (inventory(store, fd) == -1)
+	if (gnl_inventory(store, fd) == -1)
 	{
 		while (store[fd])
 		{
@@ -35,18 +35,18 @@ char	*get_next_line(int fd)
 	}
 	if (!store[fd])
 		return (NULL);
-	queue = fetch_queue(store[fd]);
-	cutting_in(&store[fd]);
+	queue = gnl_fetch_queue(store[fd]);
+	gnl_cutting_in(&store[fd]);
 	return (queue);
 }
 
-int	inventory(t_list **store, int fd)
+int	gnl_inventory(t_gnl **store, int fd)
 {
 	int		bill;
 	char	*product;
 
 	bill = 0;
-	while (!search_newline(store[fd]))
+	while (!gnl_lst_search_newline(store[fd]))
 	{
 		product = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!product)
@@ -59,18 +59,18 @@ int	inventory(t_list **store, int fd)
 			return (bill);
 		}
 		product[bill] = '\0';
-		stock_replenishment(store, product, fd);
+		gnl_stock_replenishment(store, product, fd);
 	}
 	return (bill);
 }
 
-void	stock_replenishment(t_list **store, char *product, int fd)
+void	gnl_stock_replenishment(t_gnl **store, char *product, int fd)
 {
-	t_list	*new_product;
-	t_list	*last_product;
+	t_gnl	*new_product;
+	t_gnl	*last_product;
 
 	last_product = ft_lstlast(store[fd]);
-	new_product = (t_list *)malloc(sizeof(t_list));
+	new_product = (t_gnl *)malloc(sizeof(t_gnl));
 	if (!new_product)
 		return ;
 	if (!last_product)
@@ -81,31 +81,31 @@ void	stock_replenishment(t_list **store, char *product, int fd)
 	new_product->next = NULL;
 }
 
-char	*fetch_queue(t_list *store)
+char	*gnl_fetch_queue(t_gnl *store)
 {
 	int		queue_len;
 	char	*next_queue;
 
 	if (!store)
 		return (NULL);
-	queue_len = lstlen_till_newline(store);
+	queue_len = gnl_lstlinelen(store);
 	next_queue = (char *)malloc(sizeof(char) * (queue_len + 1));
 	if (!next_queue)
 		return (NULL);
-	cpylst_to_str(store, next_queue);
+	gnl_lsttostr(store, next_queue);
 	return (next_queue);
 }
 
-void	cutting_in(t_list **store)
+void	gnl_cutting_in(t_gnl **store)
 {
-	t_list	*last_product;
-	t_list	*clean_store;
+	t_gnl	*last_product;
+	t_gnl	*clean_store;
 	int		i;
 	int		j;
 	char	*product;
 
 	product = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	clean_store = (t_list *)malloc(sizeof(t_list));
+	clean_store = (t_gnl *)malloc(sizeof(t_gnl));
 	if (!product || !clean_store)
 		return ;
 	last_product = ft_lstlast(*store);
@@ -118,7 +118,7 @@ void	cutting_in(t_list **store)
 	product[j] = '\0';
 	clean_store->content = product;
 	clean_store->next = NULL;
-	free_store(store, clean_store, product);
+	gnl_free_store(store, clean_store, product);
 }
 
 //END

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nifromon <nifromon@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nifromon <nifromon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:55:45 by nifromon          #+#    #+#             */
-/*   Updated: 2024/11/25 16:14:55 by nifromon         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:55:18 by nifromon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //START
 #include "get_next_line.h"
 
-int	search_newline(t_list *store)
+int	gnl_lst_search_newline(t_gnl *store)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ int	search_newline(t_list *store)
 	return (0);
 }
 
-t_list	*ft_lstlast(t_list *store)
+t_gnl	*ft_lstlast(t_gnl *store)
 {
 	if (!store)
 		return (NULL);
@@ -42,7 +42,7 @@ t_list	*ft_lstlast(t_list *store)
 	return (store);
 }
 
-void	cpylst_to_str(t_list *store, char *queue)
+void	gnl_lst_to_str(t_gnl *store, char *queue)
 {
 	int	i;
 	int	j;
@@ -68,7 +68,7 @@ void	cpylst_to_str(t_list *store, char *queue)
 	queue[i] = '\0';
 }
 
-int	lstlen_till_newline(t_list *store)
+int	gnl_lst_linelen(t_gnl *store)
 {
 	int	i;
 	int	len;
@@ -91,9 +91,9 @@ int	lstlen_till_newline(t_list *store)
 	return (len);
 }
 
-void	free_store(t_list	**store, t_list *clean_store, char *product)
+void	gnl_free_store(t_gnl **store, t_gnl *clean_store, char *product)
 {
-	t_list	*pop_up;
+	t_gnl	*pop_up;
 
 	while (*store)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nifromon <nifromon@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nifromon <nifromon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:40:00 by nifromon          #+#    #+#             */
-/*   Updated: 2024/11/25 15:38:03 by nifromon         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:59:56 by nifromon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_list
+typedef struct s_gnl
 {
 	char			*content;
-	struct s_list	*next;
-}					t_list;
+	struct s_gnl	*next;
+}					t_gnl;
 
-int		search_newline(t_list *store);
-t_list	*ft_lstlast(t_list *store);
-char	*fetch_queue(t_list *store);
-void	cpylst_to_str(t_list *store, char *queue);
-int		lstlen_till_newline(t_list *store);
-void	cutting_in(t_list **store);
-void	free_store(t_list **store, t_list *clean_store, char *product);
-void	stock_replenishment(t_list **store, char *product, int fd);
-int		inventory(t_list **store, int fd);
+int		gnl_lst_search_newline(t_gnl *store);
+t_gnl	*ft_lstlast(t_gnl *store);
+char	*gnl_fetch_queue(t_gnl *store);
+void	gnl_lst_to_str(t_gnl *store, char *queue);
+int		gnl_lst_linelen(t_gnl *store);
+void	gnl_cutting_in(t_gnl **store);
+void	gnl_free_store(t_gnl **store, t_gnl *clean_store, char *product);
+void	gnl_stock_replenishment(t_gnl **store, char *product, int fd);
+int		gnl_inventory(t_gnl **store, int fd);
 char	*get_next_line(int fd);
 
 #endif
